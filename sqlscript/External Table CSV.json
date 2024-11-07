@@ -1,0 +1,17 @@
+{
+	"name": "External Table CSV",
+	"properties": {
+		"content": {
+			"query": "CREATE EXTERNAL DATA SOURCE activityLog\nWITH(\n    LOCATION='https://datalake1293.blob.core.windows.net/data'\n);\n\nCREATE EXTERNAL FILE FORMAT delimitedTextFileFormat\nWITH(\n    FORMAT_TYPE=DELIMITEDTEXT,\n    FORMAT_OPTIONS(\n        FIELD_TERMINATOR=',',\n        FIRST_ROW=2\n    )\n);\n\nCREATE EXTERNAL TABLE  ActivityLog\n(\n    [Correlationid]\tVARCHAR(200),\n    [Operationname] VARCHAR(300),\n    [Status] VARCHAR(100),\n    [Eventcategory]\tVARCHAR(100),\n    [Level] VARCHAR(100),\n    [Time] VARCHAR(100),\n    [Subscription] VARCHAR(200),\n    [Eventinitiatedby]\tVARCHAR(1000),\n    [Resourcetype]\tVARCHAR(300),\n    [Resourcegroup]\t VARCHAR(1000),\n    [Resource] VARCHAR(2000)\n\n)\nWITH \n(\n    LOCATION='/Log.csv',\n    DATA_SOURCE=activityLog,\n    FILE_FORMAT=delimitedTextFileFormat\n)\n\n\nSELECT * FROM ActivityLog;",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "appdb",
+				"poolName": "Built-in"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}
